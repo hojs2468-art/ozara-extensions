@@ -1,0 +1,5 @@
+# Changes to the bot, workflows, or existing dist/ need the owner's review.
+# New extension folders are checked by the bot and don't need this.
+/.github/   @hojs2468-art
+/dist/      @hojs2468-art
+/blocklist.txt @hojs2468-art

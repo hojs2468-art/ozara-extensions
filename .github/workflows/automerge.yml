@@ -1,0 +1,53 @@
+name: Auto-merge
+
+# Runs after "Check submission" finishes. If the checks passed, it merges the
+# pull request automatically — unless it's someone's FIRST submission, which
+# waits for you to tap Merge. Set a repo variable AUTO_MERGE_ALL = true to merge
+# everyone automatically. All on GitHub's servers; your PC stays off.
+on:
+  workflow_run:
+    workflows: ["Check submission"]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  merge:
+    # only when the checks passed and it came from a pull request
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the PR number from the check run
+        uses: actions/download-artifact@v4
+        with:
+          name: pr-info
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - id: pr
+        run: echo "number=$(cat number.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Merge, or hold a first-timer for review
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR="${{ steps.pr.outputs.number }}"
+          assoc=$(gh pr view "$PR" --json authorAssociation -q .authorAssociation)
+          echo "Author association: $assoc"
+          auto_all="${{ vars.AUTO_MERGE_ALL }}"
+          case "$assoc" in
+            OWNER|MEMBER|COLLABORATOR|CONTRIBUTOR) trusted=1 ;;
+            *) trusted=0 ;;
+          esac
+          if [ "$auto_all" = "true" ] || [ "$trusted" = "1" ]; then
+            echo "Merging PR #$PR"
+            gh pr merge "$PR" --squash --delete-branch || gh pr merge "$PR" --squash
+          else
+            echo "First-time submitter — leaving for manual review."
+            gh pr comment "$PR" --body "✅ All checks passed! Since this is your first extension, a maintainer will do a quick look and merge it shortly. Thanks for submitting! 🎉" || true
+            gh pr edit "$PR" --add-label "needs-review" || true
+          fi

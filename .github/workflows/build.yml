@@ -1,0 +1,37 @@
+name: Build the store
+
+# Runs after anything is merged into main. Rebuilds the .ozext packages and
+# store.json, then commits them back. Entirely on GitHub — no PC needed.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "extensions/**"
+      - "blocklist.txt"
+  workflow_dispatch: {}   # lets you run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build dist/ (packages + store.json)
+        env:
+          EXTENSIONS_REPO: ${{ github.repository }}
+        run: python3 .github/scripts/build_store.py
+
+      - name: Commit the rebuilt store
+        run: |
+          git config user.name "ozara-store-bot"
+          git config user.email "actions@github.com"
+          git add dist
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+          else
+            git commit -m "Rebuild store"
+            git push
+          fi

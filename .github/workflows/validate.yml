@@ -1,0 +1,38 @@
+name: Check submission
+
+# Runs on every pull request. All on GitHub's servers — your PC stays off.
+on:
+  pull_request:
+    paths:
+      - "extensions/**"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code (with full history so we can diff)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Work out what the pull request changed
+        id: diff
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          git diff --name-status "origin/${{ github.base_ref }}"...HEAD > changed.txt
+          echo "----- changed files -----"
+          cat changed.txt
+
+      - name: Validate it
+        run: python3 .github/scripts/validate_pr.py < changed.txt
+
+      - name: Remember which PR this was (for auto-merge)
+        run: |
+          mkdir -p pr-info
+          echo "${{ github.event.pull_request.number }}" > pr-info/number.txt
+
+      - name: Upload PR info
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-info
+          path: pr-info/
