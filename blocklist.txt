@@ -1,0 +1,5 @@
+# Blocked extensions and authors. The bots refuse anything listed here.
+# One per line. Lines starting with # are ignored.
+#
+#   some.bad.extension          <- block one extension id
+#   author: BadPerson           <- block everything from an author

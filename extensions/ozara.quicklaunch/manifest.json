@@ -1,0 +1,9 @@
+{
+  "id": "ozara.quicklaunch",
+  "name": "Quick Launch",
+  "version": "1.0.0",
+  "author": "Hojs2468",
+  "description": "Puts your favourite games on the Home page as big one-click Play buttons, so you can jump straight in.",
+  "main": "main.luau",
+  "permissions": ["home", "favorites", "launch"]
+}

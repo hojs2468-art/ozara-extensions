@@ -1,0 +1,45 @@
+{
+  "extensions": [
+    {
+      "id": "ozara.quicklaunch",
+      "name": "Quick Launch",
+      "author": "Hojs2468",
+      "version": "1.0.0",
+      "description": "Puts your favourite games on the Home page as big one-click Play buttons, so you can jump straight in.",
+      "permissions": [
+        "home",
+        "favorites",
+        "launch"
+      ],
+      "url": "https://raw.githubusercontent.com/hojs2468-art/ozara-extensions/main/dist/ozara.quicklaunch.ozext"
+    },
+    {
+      "id": "ozara.styles",
+      "name": "Styles",
+      "author": "Hojs2468",
+      "version": "1.0.0",
+      "description": "Restyle Ozara's buttons, game tiles, panels and text. Includes a Roblox look with blue Play buttons and Roblox-style game cards.",
+      "permissions": [
+        "page",
+        "style",
+        "theme",
+        "storage"
+      ],
+      "url": "https://raw.githubusercontent.com/hojs2468-art/ozara-extensions/main/dist/ozara.styles.ozext"
+    },
+    {
+      "id": "ozara.themes",
+      "name": "Themes",
+      "author": "Hojs2468",
+      "version": "1.0.0",
+      "description": "Recolour Ozara: pick a ready-made theme, roll a random one, or mix your own colours. Your choice comes back every time Ozara starts.",
+      "permissions": [
+        "page",
+        "theme",
+        "storage",
+        "notify"
+      ],
+      "url": "https://raw.githubusercontent.com/hojs2468-art/ozara-extensions/main/dist/ozara.themes.ozext"
+    }
+  ]
+}

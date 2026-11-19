@@ -1,0 +1,9 @@
+{
+  "id": "ozara.themes",
+  "name": "Themes",
+  "version": "1.0.0",
+  "author": "Hojs2468",
+  "description": "Recolour Ozara: pick a ready-made theme, roll a random one, or mix your own colours. Your choice comes back every time Ozara starts.",
+  "main": "main.luau",
+  "permissions": ["page", "theme", "storage", "notify"]
+}

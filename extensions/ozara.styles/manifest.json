@@ -1,0 +1,9 @@
+{
+  "id": "ozara.styles",
+  "name": "Styles",
+  "version": "1.0.0",
+  "author": "Hojs2468",
+  "description": "Restyle Ozara's buttons, game tiles, panels and text. Includes a Roblox look with blue Play buttons and Roblox-style game cards.",
+  "main": "main.luau",
+  "permissions": ["page", "style", "theme", "storage"]
+}
